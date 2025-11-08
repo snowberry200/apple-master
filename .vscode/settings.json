@@ -1,0 +1,13 @@
+{
+  "cmake.sourceDirectory": "${workspaceFolder}/linux",
+  "cSpell.words": [
+    "firesbase",
+    "ifemail",
+    "mobileverify",
+    "passdesktop",
+    "passmobile",
+    "passtablet",
+    "tabletverify",
+    "veryfyformkey"
+  ]
+}
