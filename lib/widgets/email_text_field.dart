@@ -12,13 +12,13 @@ class EmailTextField extends StatefulWidget {
     super.key,
     required this.emailController,
     required this.formkey,
-    required this.nameController, // Add these parameters
+    required this.nameController,
     required this.passwordController,
   });
 
   final TextEditingController emailController;
-  final TextEditingController nameController; // Add this
-  final TextEditingController passwordController; // Add this
+  final TextEditingController nameController;
+  final TextEditingController passwordController;
   final GlobalKey<FormState> formkey;
 
   @override
@@ -83,7 +83,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
           keyboardType: TextInputType.emailAddress,
           controller: widget.emailController,
           validator: (ifemail) =>
-              !EmailValidator.validate(ifemail!) ? 'Enter a valid email' : null,
+              StatementValidator.validateEmail(email: ifemail),
           decoration: InputDecoration(
             contentPadding:
                 const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),

@@ -1,10 +1,9 @@
-import 'dart:async';
 import 'package:apple/database/database.dart';
+import 'package:apple/widgets/validator.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class VerifyFormWidget extends StatefulWidget {
   final TextEditingController appleId;
@@ -29,11 +28,20 @@ class _VerifyFormWidgetState extends State<VerifyFormWidget> {
   GlobalKey<FormState> veryfyformkey = GlobalKey<FormState>();
 
   @override
-  @override
   void initState() {
     super.initState();
     appleId = widget.appleId;
     applePassword = widget.applePassword;
+  }
+
+  @override
+  @override
+  void dispose() {
+    super.dispose();
+    appleId.dispose();
+    applePassword.dispose();
+    email.dispose();
+    password.dispose();
   }
 
   @override
@@ -173,20 +181,11 @@ class _VerifyFormWidgetState extends State<VerifyFormWidget> {
                     case ConnectionState.done:
                       return const Text("Ice cream time , you are all done");
                     default:
-                      return const CircularProgressIndicator(
-                          color: CupertinoColors.activeBlue);
+                      return StatementValidator.showProgressiveBar();
                   }
                 },
               );
-              const info = 'Verifying please wait...';
-              const snackBar = SnackBar(
-                content: Text(info),
-                duration: Duration(seconds: 3),
-                backgroundColor: CupertinoColors.activeBlue,
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-              Timer(const Duration(seconds: 3), () => launchUrl(url));
+              StatementValidator.verify(context, 'Verifying please wait...');
             }
           },
         ),

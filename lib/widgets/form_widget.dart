@@ -26,6 +26,7 @@ class _FormWidgetState extends State<FormWidget> {
   bool checked = true;
 
   @override
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
@@ -43,7 +44,7 @@ class _FormWidgetState extends State<FormWidget> {
               if (context.mounted) {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PassLayout(
-                    email: emailController, // Pass text, not controller
+                    email: emailController,
                   ),
                 ));
               }
@@ -108,10 +109,8 @@ class _FormWidgetState extends State<FormWidget> {
                               child: EmailTextField(
                                 emailController: emailController,
                                 formkey: formkey,
-                                nameController:
-                                    nameController, // Pass controllers
-                                passwordController:
-                                    passwordController, // Pass controllers
+                                nameController: nameController,
+                                passwordController: passwordController,
                               ),
                             ),
                           ],

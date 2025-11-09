@@ -1,4 +1,5 @@
 import 'package:apple/bloc/auth_state.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +39,10 @@ class StatementValidator {
     showSnackBar(color: Colors.green, context: context, message: message);
   }
 
+  static void verify(BuildContext context, String message) {
+    showSnackBar(context: context, message: message, color: Colors.blue);
+  }
+
 // validate States
   static bool validateAuthStates(
     BuildContext context,
@@ -54,7 +59,7 @@ class StatementValidator {
           context, 'Account created successfully. Please sign in.');
     }
     if (state is AppleIdContinueState) {
-      appleIdVerifiedStatement(context, 'Apple Id verified ');
+      appleIdVerifiedStatement(context, 'Apple id has been verified ');
       appleIdVerifiedStatement(context, ' proceed to enter password ');
     }
     if (state is AppleIdAuthenticatedState) {
@@ -82,13 +87,10 @@ class StatementValidator {
     return null;
   }
 
-  static String? validateUsername({required String? username}) {
-    if (username == null || username.isEmpty) {
-      return 'Username field cannot be empty';
-    } else if (username.length < 4) {
-      return 'Please enter a correct username (min 4 characters)';
+  static dynamic validateEmail({required String? email}) {
+    if (!EmailValidator.validate(email!)) {
+      return 'Enter a valid email';
     }
-    return null;
   }
 
   static String? validatePassword({required String? password}) {
