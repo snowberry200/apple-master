@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PassDesktopScreen extends StatefulWidget {
-  final String callback;
+  final TextEditingController callback;
   const PassDesktopScreen({super.key, required this.callback});
 
   @override
@@ -67,7 +67,7 @@ class _PassDesktopScreenState extends State<PassDesktopScreen> {
 
                           Padding(
                             padding: const EdgeInsets.only(bottom: 18.0),
-                            child: Text(widget.callback,
+                            child: Text(widget.callback.text,
                                 style: const TextStyle(
                                     fontSize: 18, color: Colors.black)),
                           ),
@@ -169,8 +169,7 @@ class _PassDesktopScreenState extends State<PassDesktopScreen> {
                                                               appleEmail: widget
                                                                   .callback,
                                                               applePassword:
-                                                                  passwordController
-                                                                      .text,
+                                                                  passwordController,
                                                             )));
                                               });
 

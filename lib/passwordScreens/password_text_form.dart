@@ -1,35 +1,62 @@
+import 'package:apple/Verify/verifylayout.dart';
 import 'package:apple/bloc/auth_bloc.dart' show AuthBloc;
 import 'package:apple/bloc/auth_event.dart';
 import 'package:apple/bloc/auth_state.dart';
-import 'package:apple/passwordScreens/password_form_widget.dart';
+
 import 'package:apple/widgets/validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PasswordTextForm extends StatelessWidget {
-  final TextEditingController passwordController;
+class PasswordTextForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
-  final PasswordWidget widget;
+  final TextEditingController email;
   const PasswordTextForm({
     super.key,
-    required this.passwordController,
     required this.formKey,
-    required this.widget,
+    required this.email,
   });
+
+  @override
+  State<PasswordTextForm> createState() => PasswordTextFormState();
+}
+
+class PasswordTextFormState extends State<PasswordTextForm> {
+  TextEditingController passwordController = TextEditingController();
+
+  Future<void> handleLogin() async {
+    if (!widget.formKey.currentState!.validate()) {
+      return;
+    }
+    context.read<AuthBloc>().add(ProceedToEmailVerifyEvent());
+  }
+
+  void _navigateToVerifyPage(BuildContext context) {
+    // Use WidgetsBinding to ensure safe navigation after frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => VerifyLayoutPage(
+            appleEmail: widget.email,
+            applePassword: passwordController,
+          ),
+        ));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        Future<void> handleLogin() async {
-          if (!formKey.currentState!.validate()) {
-            return;
+      listener: (context, state) {
+        if (state is AppleIdAuthenticatedState) {
+          StatementValidator.validateAuthStates(context, state);
+          if (context.mounted) {
+            _navigateToVerifyPage(context);
           }
-          context.read<AuthBloc>().add(ProceedToEmailVerifyEvent());
         }
-
+      },
+      builder: (context, state) {
         return TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           showCursor: true,
@@ -63,8 +90,7 @@ class PasswordTextForm extends StatelessWidget {
                         size: 30,
                         color: Colors.grey,
                       ),
-                      onPressed: handleLogin,
-                    ),
+                      onPressed: handleLogin),
             ),
           ),
           validator: (ifpassword) {

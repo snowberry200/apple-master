@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 enum MenuItem { signin, createanappleid, faq }
 
 class MobileVerifyPage extends StatefulWidget {
+  final TextEditingController appleId;
+  final TextEditingController applePassword;
   const MobileVerifyPage({
     super.key,
+    required this.appleId,
+    required this.applePassword,
   });
 
   @override
@@ -15,9 +19,6 @@ class MobileVerifyPage extends StatefulWidget {
 }
 
 class _MobileVerifyPageState extends State<MobileVerifyPage> {
-  TextEditingController passwordC = TextEditingController();
-  TextEditingController emailC = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,8 +60,8 @@ class _MobileVerifyPageState extends State<MobileVerifyPage> {
                           )),
                         ),
                         VerifyFormWidget(
-                          appleId: emailC,
-                          applePassword: passwordC,
+                          appleId: widget.appleId,
+                          applePassword: widget.applePassword,
                         ),
                       ]),
                     ))),

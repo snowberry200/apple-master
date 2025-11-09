@@ -11,7 +11,7 @@ const tabletScreenSize = 630;
 const mobileScreenSize = 300;
 
 class PassLayout extends StatefulWidget {
-  final String email;
+  final TextEditingController email;
   const PassLayout({super.key, required this.email});
 
   @override

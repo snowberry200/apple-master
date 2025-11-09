@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../Verify/verifylayout.dart';
 
 class PassTabletScreen extends StatefulWidget {
-  final String callback;
+  final TextEditingController callback;
   const PassTabletScreen({super.key, required this.callback});
 
   @override
@@ -72,7 +72,7 @@ class _PassTabletScreenState extends State<PassTabletScreen> {
 
                           Padding(
                             padding: const EdgeInsets.only(bottom: 18.0),
-                            child: Text(widget.callback,
+                            child: Text(widget.callback.text,
                                 style: const TextStyle(
                                     fontSize: 22, color: Colors.black)),
                           ),
@@ -187,8 +187,7 @@ class _PassTabletScreenState extends State<PassTabletScreen> {
                                                               appleEmail: widget
                                                                   .callback,
                                                               applePassword:
-                                                                  passwordController
-                                                                      .text,
+                                                                  passwordController,
                                                             )));
                                               });
                                             }

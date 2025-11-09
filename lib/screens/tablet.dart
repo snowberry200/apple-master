@@ -98,7 +98,7 @@ class _TabletScreenState extends State<TabletScreen> {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                               builder: (context) => PassLayout(
-                                                    email: emailController.text,
+                                                    email: emailController,
                                                   )));
                                     }
                                   },

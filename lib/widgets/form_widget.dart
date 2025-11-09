@@ -2,8 +2,8 @@ import 'package:apple/HomeLayOuts/passlayout.dart';
 import 'package:apple/bloc/auth_bloc.dart';
 import 'package:apple/bloc/auth_state.dart';
 import 'package:apple/widgets/email_text_field.dart';
-import 'package:apple/widgets/name_textfield.dart';
-import 'package:apple/widgets/password_field.dart';
+import 'package:apple/signup/name_textfield.dart';
+import 'package:apple/signup/password_field.dart';
 import 'package:apple/widgets/validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class _FormWidgetState extends State<FormWidget> {
           Future.delayed(Duration(seconds: 5));
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => PassLayout(
-                    email: emailController.text.trim(),
+                    email: emailController,
                   )));
         }
         if (state is SignedUpState) {

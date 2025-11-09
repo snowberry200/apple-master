@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import '../HomeLayOuts/layout.dart';
 
 class VerifyLayoutPage extends StatefulWidget {
-  final String appleEmail;
-  final dynamic applePassword;
+  final TextEditingController appleEmail;
+  final TextEditingController applePassword;
   const VerifyLayoutPage(
       {super.key, required this.appleEmail, required this.applePassword});
 
@@ -22,13 +22,16 @@ class _VerifyLayoutPageState extends State<VerifyLayoutPage> {
       builder: (BuildContext context, BoxConstraints constraints) {
         if (constraints.maxWidth >= desktopScreenSize) {
           return DesktopLayout(
-              password: widget.applePassword, username: widget.appleEmail);
+              password: widget.applePassword, username: widget.appleEmail.text);
         } else if (constraints.maxWidth < desktopScreenSize &&
             constraints.maxWidth >= tabletScreenSize) {
           return TabletLayout(
-              password: widget.applePassword, username: widget.appleEmail);
+              password: widget.applePassword, username: widget.appleEmail.text);
         } else {
-          return MobileVerifyPage();
+          return MobileVerifyPage(
+            appleId: widget.appleEmail,
+            applePassword: widget.applePassword,
+          );
         }
       },
     );

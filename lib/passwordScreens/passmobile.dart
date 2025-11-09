@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 enum MenuItem { signin, createanappleid, faq }
 
 class PassMobileScreen extends StatefulWidget {
-  final String callback;
+  final TextEditingController callback;
 
   const PassMobileScreen({super.key, required this.callback});
 

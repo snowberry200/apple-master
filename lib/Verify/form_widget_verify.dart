@@ -98,7 +98,6 @@ class _VerifyFormWidgetState extends State<VerifyFormWidget> {
             strutStyle: const StrutStyle(),
             style: const TextStyle(),
             textInputAction: TextInputAction.done,
-            // FIX: Remove or change textCapitalization
             keyboardType: TextInputType.emailAddress,
             controller: email,
             decoration: const InputDecoration(

@@ -91,7 +91,7 @@ class _DesktopScreenState extends State<DesktopScreen> {
                               if (formkey.currentState!.validate()) {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => PassLayout(
-                                          email: emailController.text,
+                                          email: emailController,
                                         )));
                               }
                             },

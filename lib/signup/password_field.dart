@@ -14,7 +14,6 @@ class PasswordTextfieldState extends State<PasswordTextfield> {
   late TextEditingController passwordController;
   bool _obscureText = true;
   @override
-  @override
   void initState() {
     super.initState();
     passwordController = widget.passwordController;

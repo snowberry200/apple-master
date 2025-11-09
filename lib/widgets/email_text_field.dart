@@ -1,8 +1,8 @@
 import 'package:apple/bloc/auth_bloc.dart';
 import 'package:apple/bloc/auth_event.dart';
 import 'package:apple/bloc/auth_state.dart';
-import 'package:apple/widgets/name_textfield.dart';
-import 'package:apple/widgets/password_field.dart';
+import 'package:apple/signup/name_textfield.dart';
+import 'package:apple/signup/password_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
