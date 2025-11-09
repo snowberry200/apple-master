@@ -1,8 +1,7 @@
 import 'package:apple/bloc/auth_bloc.dart';
 import 'package:apple/bloc/auth_event.dart';
 import 'package:apple/bloc/auth_state.dart';
-import 'package:apple/signup/name_textfield.dart';
-import 'package:apple/signup/password_field.dart';
+import 'package:apple/widgets/validator.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +12,13 @@ class EmailTextField extends StatefulWidget {
     super.key,
     required this.emailController,
     required this.formkey,
+    required this.nameController, // Add these parameters
+    required this.passwordController,
   });
 
   final TextEditingController emailController;
+  final TextEditingController nameController; // Add this
+  final TextEditingController passwordController; // Add this
   final GlobalKey<FormState> formkey;
 
   @override
@@ -23,8 +26,39 @@ class EmailTextField extends StatefulWidget {
 }
 
 class _EmailTextFieldState extends State<EmailTextField> {
-  final nameControllerKey = GlobalKey<NameTextFormWidgetState>();
-  final passwordControllerKey = GlobalKey<PasswordTextfieldState>();
+  void handleLogin() {
+    if (widget.formkey.currentState!.validate()) {
+      context.read<AuthBloc>().add(
+          ProceedToPasswordEvent(email: widget.emailController.text.trim()));
+      debugPrint('Email:${widget.emailController.text}');
+    }
+  }
+
+  void handleSignup() {
+    // Validate all fields in real-time
+    final isNameValid =
+        StatementValidator.validateName(name: widget.nameController.text) ==
+            null;
+    final isEmailValid =
+        EmailValidator.validate(widget.emailController.text.trim());
+    final isPasswordValid = StatementValidator.validatePassword(
+            password: widget.passwordController.text) ==
+        null;
+
+    debugPrint(
+        'Signup Validation - Name: $isNameValid, Email: $isEmailValid, Password: $isPasswordValid');
+
+    if (isNameValid && isEmailValid && isPasswordValid) {
+      context.read<AuthBloc>().add(SignUpEvent(
+            name: widget.nameController.text.trim(),
+            password: widget.passwordController.text.trim(),
+            email: widget.emailController.text.trim(),
+          ));
+      debugPrint('SignUp event dispatched for: ${widget.emailController.text}');
+    } else {
+      debugPrint('Signup validation failed');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +91,6 @@ class _EmailTextFieldState extends State<EmailTextField> {
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             hintText: 'Apple ID',
             hintStyle: const TextStyle(fontSize: 16),
-            //state is loading
             suffixIcon: IconButton(
               hoverColor: CupertinoColors.white,
               icon: const Icon(
@@ -67,20 +100,8 @@ class _EmailTextFieldState extends State<EmailTextField> {
               ),
               onPressed: () {
                 if (widget.formkey.currentState!.validate()) {
-                  // SIGN UP LOGIC
-                  if (!state.isSignedIn) {
-                    context.read<AuthBloc>().add(SignUpEvent(
-                        name: nameControllerKey
-                            .currentState!.nameController.text
-                            .trim(),
-                        password: passwordControllerKey
-                            .currentState!.passwordController.text,
-                        email: widget.emailController.text.trim()));
-                  }
-                  context.read<AuthBloc>().add(ProceedToPasswordEvent(
-                      email: widget.emailController.text.trim()));
+                  !state.isSignedIn ? handleSignup() : handleLogin();
                 }
-                debugPrint('Email:${widget.emailController.text}');
               },
             ),
           ),

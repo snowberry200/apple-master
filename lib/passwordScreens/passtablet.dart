@@ -15,7 +15,7 @@ class PassTabletScreen extends StatefulWidget {
 
 class _PassTabletScreenState extends State<PassTabletScreen> {
   TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> _formerkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool checked = true;
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class _PassTabletScreenState extends State<PassTabletScreen> {
                           //),
                           SizedBox(
                             child: Form(
-                              key: _formerkey,
+                              key: _formKey,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               child: Padding(
@@ -126,7 +126,7 @@ class _PassTabletScreenState extends State<PassTabletScreen> {
                                             color: Colors.grey,
                                           ),
                                           onPressed: () {
-                                            if (_formerkey.currentState!
+                                            if (_formKey.currentState!
                                                 .validate()) {
                                               debugPrint(
                                                   'Email:${widget.callback}, Password:${passwordController.text}');

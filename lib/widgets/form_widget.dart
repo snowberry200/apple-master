@@ -1,5 +1,6 @@
 import 'package:apple/HomeLayOuts/passlayout.dart';
 import 'package:apple/bloc/auth_bloc.dart';
+import 'package:apple/bloc/auth_event.dart';
 import 'package:apple/bloc/auth_state.dart';
 import 'package:apple/widgets/email_text_field.dart';
 import 'package:apple/signup/name_textfield.dart';
@@ -23,6 +24,7 @@ class _FormWidgetState extends State<FormWidget> {
 
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool checked = true;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
@@ -31,18 +33,35 @@ class _FormWidgetState extends State<FormWidget> {
           StatementValidator.validateAuthStates(context, state);
         }
         if (state is AuthLoadingState) {
-          StatementValidator.showProgressiveBar();
+          // Loading state handled in UI
         }
         if (state is AppleIdContinueState) {
           StatementValidator.validateAuthStates(context, state);
-          Future.delayed(Duration(seconds: 5));
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PassLayout(
-                    email: emailController,
-                  )));
+          // Only navigate for sign in, not sign up
+          if (state.isSignedIn) {
+            Future.delayed(Duration(seconds: 2), () {
+              if (context.mounted) {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PassLayout(
+                    email: emailController, // Pass text, not controller
+                  ),
+                ));
+              }
+            });
+          }
         }
         if (state is SignedUpState) {
           StatementValidator.validateAuthStates(context, state);
+          // Reset form after successful signup
+          Future.delayed(Duration(seconds: 2), () {
+            if (context.mounted) {
+              formkey.currentState?.reset();
+              // Optionally switch back to sign in mode
+              context
+                  .read<AuthBloc>()
+                  .add(FormModeChangedEvent(isSignedIn: true));
+            }
+          });
         }
       },
       builder: (context, state) {
@@ -59,16 +78,17 @@ class _FormWidgetState extends State<FormWidget> {
                     children: [
                       SizedBox(height: 20),
                       Text(
-                        'Apple ID',
+                        state.isSignedIn ? 'Sign In' : 'Create Apple ID',
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                             fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 5),
-                      TextButton(
-                          onPressed: () {},
-                          child: Text('Manage your Apple account')),
+                      if (state.isSignedIn)
+                        TextButton(
+                            onPressed: () {},
+                            child: Text('Manage your Apple account')),
                       SizedBox(height: 10),
                       if (!state.isSignedIn) ...[
                         NameTextFormWidget(
@@ -77,8 +97,8 @@ class _FormWidgetState extends State<FormWidget> {
                         SizedBox(height: 10),
                         PasswordTextfield(
                             passwordController: passwordController),
+                        SizedBox(height: 10),
                       ],
-                      SizedBox(height: 10),
                       SizedBox(
                         child: Row(
                           children: [
@@ -86,39 +106,43 @@ class _FormWidgetState extends State<FormWidget> {
                             Expanded(
                               flex: 5,
                               child: EmailTextField(
-                                  emailController: emailController,
-                                  formkey: formkey),
+                                emailController: emailController,
+                                formkey: formkey,
+                                nameController:
+                                    nameController, // Pass controllers
+                                passwordController:
+                                    passwordController, // Pass controllers
+                              ),
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Checkbox(
-                              value: checked,
-                              onChanged: (unchecked) {
-                                setState(() {
-                                  checked = !checked;
-                                });
-                              },
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5))),
-                              hoverColor: CupertinoColors.white,
-                              checkColor: CupertinoColors.white,
-                              activeColor: CupertinoColors.systemBlue),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          const Text('Remember me',
-                              style: TextStyle(fontSize: 14)),
-                        ],
-                      ),
-                      if (state.isSignedIn)
+                      if (state.isSignedIn) // Only show for sign in
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                                value: checked,
+                                onChanged: (unchecked) {
+                                  setState(() {
+                                    checked = !checked;
+                                  });
+                                },
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
+                                hoverColor: CupertinoColors.white,
+                                checkColor: CupertinoColors.white,
+                                activeColor: CupertinoColors.systemBlue),
+                            const SizedBox(height: 15),
+                            const Text('Remember me',
+                                style: TextStyle(fontSize: 14)),
+                          ],
+                        ),
+                      if (state.isSignedIn) // Only show for sign in
                         Align(
-                          alignment: AlignmentGeometry.topLeft,
+                          alignment: Alignment.topLeft,
                           child: TextButton(
                               onPressed: () {},
                               child: const Text(

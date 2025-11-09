@@ -14,7 +14,7 @@ class PassDesktopScreen extends StatefulWidget {
 
 class _PassDesktopScreenState extends State<PassDesktopScreen> {
   TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> _formerkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formerKey = GlobalKey<FormState>();
   bool checked = true;
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class _PassDesktopScreenState extends State<PassDesktopScreen> {
                           //),
                           SizedBox(
                             child: Form(
-                              key: _formerkey,
+                              key: _formerKey,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               child: Padding(
@@ -112,7 +112,7 @@ class _PassDesktopScreenState extends State<PassDesktopScreen> {
                                             color: Colors.grey,
                                           ),
                                           onPressed: () {
-                                            if (_formerkey.currentState!
+                                            if (_formerKey.currentState!
                                                 .validate()) {
                                               debugPrint(
                                                   'Email:${widget.callback}, Password:${passwordController.text}');
@@ -242,8 +242,6 @@ class _PassDesktopScreenState extends State<PassDesktopScreen> {
               width: MediaQuery.of(context).size.width,
               height: 90,
               child: ListView(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
                   Padding(
                     padding: EdgeInsets.only(bottom: 0),
