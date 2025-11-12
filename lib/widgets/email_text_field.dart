@@ -100,7 +100,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
               ),
               onPressed: () {
                 if (widget.formkey.currentState!.validate()) {
-                  !state.isSignedIn ? handleSignup() : handleLogin();
+                  !state.isSignInMode ? handleSignup() : handleLogin();
                 }
               },
             ),

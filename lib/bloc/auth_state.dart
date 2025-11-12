@@ -2,24 +2,20 @@ import 'package:equatable/equatable.dart';
 
 abstract class AuthState extends Equatable {
   bool get isLoading => false;
-  bool get isSignedIn;
+  bool get isSignInMode => true;
   const AuthState();
   @override
-  List<Object?> get props => [isSignedIn, isLoading];
+  List<Object?> get props => [isSignInMode, isLoading];
 }
 
 class InitialState extends AuthState {
   const InitialState();
-  @override
-  bool get isSignedIn => true;
 }
 
 class AuthLoadingState extends AuthState {
   const AuthLoadingState();
   @override
   bool get isLoading => true;
-  @override
-  bool get isSignedIn => true;
 
   @override
   List<Object?> get props => [isLoading];
@@ -31,15 +27,15 @@ class AppleIdContinueState extends AuthState {
     required this.email,
   });
   @override
-  bool get isSignedIn => true;
+  bool get isSignInMode => true;
 }
 
 class AppleIdAuthenticatedState extends AuthState {
   const AppleIdAuthenticatedState();
   @override
-  bool get isSignedIn => true;
+  bool get isSignInMode => true;
   @override
-  List<Object?> get props => [isSignedIn];
+  List<Object?> get props => [isSignInMode];
 }
 
 class EmailVerifiedState extends AuthState {
@@ -48,7 +44,7 @@ class EmailVerifiedState extends AuthState {
   const EmailVerifiedState(
       {required this.emailAddress, required this.password});
   @override
-  bool get isSignedIn => true;
+  bool get isSignInMode => true;
 }
 
 class SignedUpState extends AuthState {
@@ -63,7 +59,7 @@ class SignedUpState extends AuthState {
   List<Object?> get props => [email, name, password];
 
   @override
-  bool get isSignedIn => false;
+  bool get isSignInMode => false;
 }
 
 class AuthErrorState extends AuthState {
@@ -72,18 +68,18 @@ class AuthErrorState extends AuthState {
   @override
   List<Object?> get props => [message];
   @override
-  bool get isSignedIn => true;
+  bool get isSignInMode => true;
 }
 
 //swap
 class FormModeChangedState extends AuthState {
-  final bool isSignInMode;
+  final bool signInMode;
 
-  const FormModeChangedState({required this.isSignInMode});
-
-  @override
-  bool get isSignedIn => isSignInMode;
+  const FormModeChangedState({required this.signInMode});
 
   @override
-  List<Object?> get props => [isSignInMode];
+  bool get isSignInMode => signInMode; // Use the parameter
+
+  @override
+  List<Object?> get props => [signInMode];
 }

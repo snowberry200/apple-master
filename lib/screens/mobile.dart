@@ -1,6 +1,5 @@
-import 'package:apple/widgets/apple_image.dart';
 import 'package:apple/widgets/app_bar_widget.dart';
-import 'package:apple/widgets/form_widget.dart';
+import 'package:apple/widgets/map_widgets.dart';
 import 'package:apple/widgets/mobile_bottom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +16,7 @@ class MobileScreen extends StatefulWidget {
 }
 
 class _MobileScreenState extends State<MobileScreen> {
+  MapWidgets mapWidgets = MapWidgets();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +42,8 @@ class _MobileScreenState extends State<MobileScreen> {
                     Row(
                       children: [
                         Expanded(flex: 2, child: SizedBox()),
-                        Expanded(flex: 3, child: AppleImage()),
+                        Expanded(
+                            flex: 3, child: mapWidgets.widgets['apple image']!),
                         Expanded(flex: 2, child: SizedBox())
                       ],
                     ),
@@ -55,7 +56,9 @@ class _MobileScreenState extends State<MobileScreen> {
                         child: Row(
                           children: [
                             Expanded(flex: 1, child: SizedBox()),
-                            Expanded(flex: 5, child: FormWidget()),
+                            Expanded(
+                                flex: 5,
+                                child: mapWidgets.widgets['form widget']!),
                             Expanded(flex: 1, child: SizedBox()),
                           ],
                         ),

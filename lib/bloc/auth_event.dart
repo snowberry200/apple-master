@@ -42,7 +42,7 @@ class FormModeChangedEvent extends AuthEvent {
   FormModeChangedEvent({required this.isSignedIn});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [isSignedIn];
 }
 
 class SignUpEvent extends AuthEvent {

@@ -52,7 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onFormModeChangedEvent(
       FormModeChangedEvent event, Emitter<AuthState> emit) async {
     try {
-      emit(FormModeChangedState(isSignInMode: event.isSignedIn));
+      emit(FormModeChangedState(signInMode: event.isSignedIn));
     } catch (e) {
       emit(AuthErrorState(message: e.toString()));
     }

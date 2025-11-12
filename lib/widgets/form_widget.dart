@@ -39,7 +39,7 @@ class _FormWidgetState extends State<FormWidget> {
         if (state is AppleIdContinueState) {
           StatementValidator.validateAuthStates(context, state);
           // Only navigate for sign in, not sign up
-          if (state.isSignedIn) {
+          if (state.isSignInMode) {
             Future.delayed(Duration(seconds: 2), () {
               if (context.mounted) {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -79,19 +79,19 @@ class _FormWidgetState extends State<FormWidget> {
                     children: [
                       SizedBox(height: 20),
                       Text(
-                        state.isSignedIn ? 'Sign In' : 'Create Apple ID',
+                        state.isSignInMode ? 'Sign In' : 'Create Apple ID',
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                             fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 5),
-                      if (state.isSignedIn)
+                      if (state.isSignInMode)
                         TextButton(
                             onPressed: () {},
                             child: Text('Manage your Apple account')),
                       SizedBox(height: 10),
-                      if (!state.isSignedIn) ...[
+                      if (!state.isSignInMode) ...[
                         NameTextFormWidget(
                           nameController: nameController,
                         ),
@@ -117,7 +117,7 @@ class _FormWidgetState extends State<FormWidget> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      if (state.isSignedIn) // Only show for sign in
+                      if (state.isSignInMode) // Only show for sign in
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -139,7 +139,7 @@ class _FormWidgetState extends State<FormWidget> {
                                 style: TextStyle(fontSize: 14)),
                           ],
                         ),
-                      if (state.isSignedIn) // Only show for sign in
+                      if (state.isSignInMode) // Only show for sign in
                         Align(
                           alignment: Alignment.topLeft,
                           child: TextButton(
