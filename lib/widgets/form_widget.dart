@@ -19,11 +19,9 @@ class FormWidget extends StatefulWidget {
 
 class _FormWidgetState extends State<FormWidget> {
   TextEditingController emailController = TextEditingController();
+  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
-  bool checked = true;
 
   @override
   @override
@@ -122,11 +120,11 @@ class _FormWidgetState extends State<FormWidget> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Checkbox(
-                                value: checked,
-                                onChanged: (unchecked) {
-                                  setState(() {
-                                    checked = !checked;
-                                  });
+                                value: state.isChecked,
+                                onChanged: (bool? newValue) {
+                                  final toggleValue = !state.isChecked;
+                                  context.read<AuthBloc>().add(
+                                      CheckboxEvent(isChecked: toggleValue));
                                 },
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:

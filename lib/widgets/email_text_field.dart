@@ -66,20 +66,13 @@ class _EmailTextFieldState extends State<EmailTextField> {
       listener: (context, state) {},
       builder: (context, state) {
         return TextFormField(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          selectionControls: CupertinoDesktopTextSelectionControls(),
+          cursorColor: Colors.blue,
           enableIMEPersonalizedLearning: true,
-          selectionControls: CupertinoTextSelectionControls(),
           textCapitalization: TextCapitalization.none,
           enableInteractiveSelection: true,
           autofillHints: const [AutofillHints.email],
-          enableSuggestions: true,
-          autocorrect: true,
-          showCursor: true,
-          autofocus: false,
-          textAlign: TextAlign.start,
-          strutStyle: const StrutStyle(),
-          style: const TextStyle(),
-          textInputAction: TextInputAction.done,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           keyboardType: TextInputType.emailAddress,
           controller: widget.emailController,
           validator: (ifemail) =>

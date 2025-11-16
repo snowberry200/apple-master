@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:apple/bloc/auth_event.dart';
 import 'package:apple/bloc/auth_state.dart';
 import 'package:apple/database/database.dart';
@@ -11,6 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ContinueToVerifyEvent>(_onContinueToVerifyEvent);
     on<FormModeChangedEvent>(_onFormModeChangedEvent);
     on<SignUpEvent>(_onSignUpEvent);
+    on<CheckboxEvent>(_onCheckboxEvent);
   }
 
   Future<void> _onProceedToPasswordEvent(
@@ -69,5 +72,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       emit(AuthErrorState(message: e.toString()));
     }
+  }
+
+  FutureOr<void> _onCheckboxEvent(
+      CheckboxEvent event, Emitter<AuthState> emit) {
+    emit(CheckboxState(
+      checker: event.isChecked,
+    ));
   }
 }

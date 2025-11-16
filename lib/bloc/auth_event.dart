@@ -56,3 +56,11 @@ class SignUpEvent extends AuthEvent {
   @override
   List<Object?> get props => [email, name, password];
 }
+
+class CheckboxEvent extends AuthEvent {
+  CheckboxEvent({required this.isChecked});
+  final bool isChecked;
+
+  @override
+  List<Object?> get props => [isChecked];
+}

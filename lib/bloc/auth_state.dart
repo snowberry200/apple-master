@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class AuthState extends Equatable {
+  bool get isChecked => false;
   bool get isLoading => false;
   bool get isSignInMode => true;
   const AuthState();
@@ -82,4 +83,15 @@ class FormModeChangedState extends AuthState {
 
   @override
   List<Object?> get props => [signInMode];
+}
+
+//checkbox
+class CheckboxState extends AuthState {
+  final bool checker;
+  const CheckboxState({required this.checker});
+
+  @override
+  bool get isChecked => checker;
+  @override
+  List<Object?> get props => [isChecked];
 }
